@@ -1,6 +1,8 @@
 package web.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "User")
@@ -9,10 +11,14 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotEmpty(message = "Введите имя")
     @Column(name = "name")
     private String name;
+    @NotEmpty(message = "Введите фамилию")
     @Column(name = "surname")
     private String surname;
+    @NotEmpty(message = "Введите почту")
+    @Email(message = "Некорректная почта")
     @Column(name = "email")
     private String email;
 
