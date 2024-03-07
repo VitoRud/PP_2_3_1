@@ -1,5 +1,6 @@
 package web.config;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,14 +17,19 @@ import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
+
 @Configuration
+
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @ComponentScan(value = "web")
 public class DBConfig {
+    private  Environment env;
 
     @Autowired
-    private Environment env;
+    public DBConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public DataSource getDataSource() {
@@ -36,23 +42,15 @@ public class DBConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(getDataSource());
-        em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
+        em.setPackagesToScan(env.getRequiredProperty("db.entityPack"));
+
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(getHibernateProperties());
         return em;
     }
-
-    @Bean
-    public JpaTransactionManager getTransactionManager() {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
-        return transactionManager;
-    }
-
-
     public Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
@@ -60,4 +58,11 @@ public class DBConfig {
         properties.put("hibernate.dialect",env.getRequiredProperty("hibernate.dialect"));
         return properties;
     }
+    @Bean
+    public JpaTransactionManager getTransactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
+        return transactionManager;
+    }
+
 }

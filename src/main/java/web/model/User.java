@@ -6,13 +6,14 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
+    @Column(name = "name")
     private String name;
-    @Column
+    @Column(name = "surname")
     private String surname;
-    @Column
+    @Column(name = "email")
     private String email;
 
     public User() {
@@ -22,6 +23,14 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.email = email;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

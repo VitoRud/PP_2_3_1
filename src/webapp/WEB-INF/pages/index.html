@@ -7,9 +7,34 @@
 </head>
 <body>
 <div>
-    <th:block th:each="msg : ${messages}">
-        <h1 th:text="${msg}"></h1>
-    </th:block>
+    <div>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.getId()}"/>
+                <td th:text="${user.getName()}"/>
+                <td th:text="${user.getSurname()}"/>
+                <td th:text="${user.getEmail()}"/>
+                <td><form th:method="POST" th:action="@{/delete(id=${user.getId()})}">
+                    <input type="submit" value="Delete"/>
+                </form></td>
+                <td><a class="edit-button" th:href="@{update(id=${user.getId()})}">
+                    <button type="button" class="btn btn-primary btn-sm">Update!</button></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/new">Create new User</a>
 </div>
 </body>
 </html>
