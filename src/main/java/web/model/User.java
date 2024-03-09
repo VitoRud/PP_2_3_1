@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "User")
@@ -19,9 +20,11 @@ public class User {
     private int id;
     @NotEmpty(message = "Введите имя")
     @Column(name = "name")
+    @Pattern(regexp = "[а-яёА-ЯЁA-Za-z]+", message = "Имя может содержать только буквы")
     private String name;
     @NotEmpty(message = "Введите фамилию")
     @Column(name = "surname")
+    @Pattern(regexp = "[а-яёА-ЯЁA-Za-z]+", message = "Фамилия может содержать только буквы")
     private String surname;
     @NotEmpty(message = "Введите почту")
     @Email(message = "Некорректная почта")

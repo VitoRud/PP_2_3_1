@@ -6,9 +6,9 @@ import javax.persistence.Query;
 import java.util.List;
 
 public interface UserDao {
-    public void createUser(User user);
-    public List<User> userList();
-    public User getOneUser(int id);
-    public void deleteUser(int id);
-    public void updateUser(User user);
+    void createUser(User user);
+    List<User> userList();
+    User getOneUser(int id);
+    void deleteUser(int id);
+    void updateUser(User user);
 }
